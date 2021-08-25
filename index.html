@@ -67,6 +67,13 @@
           return randomFrom(firstNames) + " " + randomFrom(lastNames);
         }
 
+        function toTitleCase(str) {
+          str = str.toLowerCase();
+          return str.replace(/(?:^|\s)\w/g, function(match) {
+            return match.toUpperCase();
+          });
+        }
+
         function generateLink(){
           let violation = encodeURIComponent(getExcerpt());
           let evidence = encodeURIComponent(getExcerpt());
@@ -74,15 +81,16 @@
 
           let location = getLocation();
 
-          let city = encodeURIComponent(location.city);
-          let state = encodeURIComponent(location.state);
-          let county = encodeURIComponent(location.county);
+          let city = encodeURIComponent(toTitleCase(location.city));
+          let state = "Texas"
+          let county = encodeURIComponent(toTitleCase(location.county));
           let zip = encodeURIComponent(location.zip);
-          var link = "https://prolifewhistleblower.com/anonymous-form/?textarea-1=" + violation + "&text-1=" + evidence + "&text-6=" + doctor + "&text-2=" + state + "&text-3=" + city + "&text-4=" + zip + "&text-5=" + county;
+          console.log(county);
+          var link = "https://prolifewhistleblower.com/anonymous-form/?textarea-1=" + violation + "&text-1=" + evidence + "&text-6=" + doctor + "&text-2=" + city + "&text-3=" + state + "&text-4=" + zip + "&text-5=" + county;
           setupModal(
             link,
             "Click here for pre-filled form.",
-            "All text comes from George Orwell's 1984, and all names and places are random. Note: The content in the form will be URL encoded, i.e. spaces will look like %20. I am trying to think of a way to get around that."
+            "All text comes from George Orwell's 1984, and all names and places are random. Note: The content in the form will be URL encoded, i.e. spaces will look like %20. I am trying to think of a way to get around that, but there's a good chance the data does get urldecoded on the other end regardless."
           );
         }
 
@@ -126,7 +134,7 @@
           This website is intended only as a political statement. Even though it <i>will</i> work, we do not advocate actually clicking "submit" and clogging their report system with excerpts from Orwell's masterpiece.  It'll work though, so you know. But don't do it.
         </h3>
         <br>
-        <div id="generate-link">Generate fake report form</div>
+        <div id="generate-link">Generate link for fake report form</div>
       </div>
     </div>
     <style>
