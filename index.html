@@ -1,0 +1,201 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script src="https://thiscold.house/lib/jquery-3.3.1.js"></script>
+    <title>Prolife Whisteblower Link Generator
+    </title>
+  </head>
+  <body>
+    <script>
+      $(document).ready(function(){
+        // ------------ modal ---------------- //
+        function handleModalClick(e){
+          if (e.target.id == "modal-background"){
+            hideModal();
+          }
+        }
+
+        function hideModal(){
+          $('#modal-parent').css('display', 'none');
+        }
+
+        function setupModal(link){
+          $("#link").attr("href", link);
+          $('#modal-parent').css('display', 'block');
+        }
+
+        // ----------------- end modal ----------- //
+
+        function getBook(){
+          $.get("/static/1984.txt", function(data){
+            $("#book").html(data);
+          });
+        }
+
+        function getTexas(){
+          $.get("/static/texas.txt", function(data){
+            $("#texas").html(data);
+          });
+        }
+
+        function randomFrom(thing){
+          return thing[Math.floor(Math.random()*thing.length)]
+        }
+
+        function getExcerpt(){
+          let book = $.parseJSON($("#book").html());
+          return randomFrom(book).slice(0,500)
+        }
+
+        function getLocation(){
+          let texas = $.parseJSON($("#texas").html());
+          return randomFrom(texas)
+        }
+
+        function getDoctorName(){
+          let lastNames = ['Smith', 'Johnson', 'Williams', 'Jones', 'Brown', 'Davis', 'Miller', 'Wilson', 'Moore', 'Taylor', 'Anderson', 'Thomas', 'Jackson', 'White', 'Harris', 'Martin', 'Thompson', 'Garcia', 'Martinez', 'Robinson', 'Clark', 'Rodriguez', 'Lewis', 'Lee', 'Walker', 'Hall', 'Allen', 'Young', 'Hernandez', 'King', 'Wright', 'Lopez', 'Hill', 'Scott', 'Green', 'Adams', 'Baker', 'Gonzalez', 'Nelson', 'Carter', 'Mitchell', 'Perez', 'Roberts', 'Turner', 'Phillips', 'Campbell', 'Parker', 'Evans', 'Edwards', 'Collins', 'Stewart', 'Sanchez', 'Morris', 'Rogers', 'Reed', 'Cook', 'Morgan', 'Bell', 'Murphy', 'Bailey', 'Rivera', 'Cooper', 'Richardson', 'Cox', 'Howard', 'Ward', 'Torres', 'Peterson', 'Gray', 'Ramirez', 'James', 'Watson', 'Brooks', 'Kelly', 'Sanders', 'Price', 'Bennett', 'Wood', 'Barnes', 'Ross', 'Henderson', 'Coleman', 'Jenkins', 'Perry', 'Powell', 'Long', 'Patterson', 'Hughes', 'Flores', 'Washington', 'Butler', 'Simmons', 'Foster', 'Gonzales', 'Bryant', 'Alexander', 'Russell', 'Griffin', 'Diaz', 'Hayes', 'Myers', 'Ford', 'Hamilton', 'Graham', 'Sullivan', 'Wallace', 'Woods', 'Cole', 'West', 'Jordan', 'Owens', 'Reynolds', 'Fisher', 'Ellis', 'Harrison', 'Gibson', 'Mcdonald', 'Cruz', 'Marshall', 'Ortiz', 'Gomez', 'Murray', 'Freeman', 'Wells', 'Webb', 'Simpson', 'Stevens', 'Tucker', 'Porter', 'Hunter', 'Hicks', 'Crawford', 'Henry', 'Boyd', 'Mason', 'Morales', 'Kennedy', 'Warren', 'Dixon', 'Ramos', 'Reyes', 'Burns', 'Gordon', 'Shaw', 'Holmes', 'Rice', 'Robertson', 'Hunt', 'Black', 'Daniels', 'Palmer', 'Mills', 'Nichols', 'Grant', 'Knight', 'Ferguson', 'Rose', 'Abbot']
+          let firstNames = ['Michael', 'Christopher', 'Jessica', 'Matthew', 'Ashley', 'Jennifer', 'Joshua', 'Amanda', 'Daniel', 'David', 'James', 'Robert', 'John', 'Joseph', 'Andrew', 'Ryan', 'Brandon', 'Jason', 'Justin', 'Sarah', 'William', 'Jonathan', 'Stephanie', 'Brian', 'Nicole', 'Nicholas', 'Anthony', 'Heather', 'Eric', 'Elizabeth', 'Adam', 'Megan', 'Melissa', 'Kevin', 'Steven', 'Thomas', 'Timothy', 'Christina', 'Kyle', 'Rachel', 'Laura', 'Lauren', 'Amber', 'Brittany', 'Danielle', 'Richard', 'Kimberly', 'Jeffrey', 'Amy', 'Crystal']
+          return randomFrom(firstNames) + " " + randomFrom(lastNames);
+        }
+
+        function generateLink(){
+          let violation = encodeURIComponent(getExcerpt());
+          let evidence = encodeURIComponent(getExcerpt());
+          let doctor = encodeURIComponent(getDoctorName());
+
+          let location = getLocation();
+
+          let city = encodeURIComponent(location.city);
+          let state = encodeURIComponent(location.state);
+          let county = encodeURIComponent(location.county);
+          let zip = encodeURIComponent(location.zip);
+          var link = "https://prolifewhistleblower.com/anonymous-form/?textarea-1=" + violation + "&text-1=" + evidence + "&text-6=" + doctor + "&text-2=" + state + "&text-3=" + city + "&text-4=" + zip + "&text-5=" + county;
+          setupModal(link);
+        }
+
+        // page setup
+        getBook();
+        getTexas();
+        $("#generate-link").on('click', generateLink);
+      });
+
+    </script>
+    <div id="book" style="display: none"></div>
+    <div id="texas" style="display: none"></div>
+    <div id="modal-parent" style="display:none;">
+      <div id="modal-background"></div>
+      <div id="modal">
+        <div class="blog-entry" style="text-align: center">
+          <h3>
+            <a id="link" target="_blank">Click here.</a>
+          </h3>
+          <p>
+            All text comes from George Orwell's 1984, and all names and places are randomly generated. Note: The content in the form will be URL encoded, i.e. spaces will look like %20. I am trying to think of a way to get around that.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div id="header">
+      <img src="/static/logo.png"/>
+    </div>
+    <div id="main">
+      <div id="main-header">
+        <h2>
+          Fuck the Texas Heartbeat Act
+        </h2>
+        <div id="generate-link">Generate fake report form</div>
+      </div>
+    </div>
+    <style>
+      #header {
+          height: 80px;
+      }
+      #main {
+          background-image: url(/static/scarephoto.png);
+          height: 800px;
+          width: 100%;
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: 100%;
+          transition: all .7s;
+      }
+      #main-header {
+          width: 40%;
+          margin-left: 15%;
+          margin-top: 24px;
+          position: relative;
+          top: 50px;
+      }
+
+      #main-header h2{
+          font-family: 'Lora',Georgia,"Times New Roman",serif;
+          font-weight: 700;
+          font-size: 80px;
+          line-height: 1.5em;
+          color: white;
+          text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
+
+      }
+      #generate-link{
+          color: #FFFFFF!important;
+          border-radius: 100px;
+          font-size: 16px;
+          font-family: 'Oswald',Helvetica,Arial,Lucida,sans-serif!important;
+          font-weight: 700!important;
+          text-transform: uppercase!important;
+          background-color: rgba(224,43,32);
+          text-align: center;
+          height: 50px;
+          line-height: 50px;
+          width: 400px;
+          cursor: pointer;
+
+      }
+
+      /* modal */
+      #modal-background {
+          display: block;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: white;
+          opacity: .50;
+          -webkit-opacity: .5;
+          -moz-opacity: .5;
+          filter: alpha(opacity=50);
+          z-index: 1;
+      }
+      #modal {
+          background-color: white;
+          border-radius: 10px;
+          -webkit-border-radius: 10px;
+          -moz-border-radius: 10px;
+          box-shadow: 0 0 20px 0 #222;
+          -webkit-box-shadow: 0 0 20px 0 #222;
+          -moz-box-shadow: 0 0 20px 0 #222;
+          display: block;
+          height: 300px;
+          max-height: 50%;
+          /* margin: -120px 0 0 -160px; */
+
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+
+          max-width: 80%;
+          padding: 10px;
+          position: fixed;
+          width: 500px;
+          z-index: 5000;
+      }
+      @media screen and (max-width: 500px){
+          #modal{
+              overflow-y: scroll;
+          }
+      }
+    </style>
+  </body>
