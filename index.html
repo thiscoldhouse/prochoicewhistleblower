@@ -19,12 +19,21 @@
           $('#modal-parent').css('display', 'none');
         }
 
-        function setupModal(link){
+        function setupModal(link, linkText, text){
           $("#link").attr("href", link);
+          $("#link").html(linkText);
+          $('#modal-text').html(text);
           $('#modal-parent').css('display', 'block');
         }
 
         // ----------------- end modal ----------- //
+
+        function mock(){
+          debugger;
+          setupModal(
+            null, null, "Have you noticed the scary background picture? Or the weird font on the link you just clicked? I gave up trying to make the kerning and font as fucked up as it was on the original site. Anyway, fuck you Greg Abbott, you're a piece of shit."
+          );
+        }
 
         function getBook(){
           $.get("/static/1984.txt", function(data){
@@ -70,13 +79,19 @@
           let county = encodeURIComponent(location.county);
           let zip = encodeURIComponent(location.zip);
           var link = "https://prolifewhistleblower.com/anonymous-form/?textarea-1=" + violation + "&text-1=" + evidence + "&text-6=" + doctor + "&text-2=" + state + "&text-3=" + city + "&text-4=" + zip + "&text-5=" + county;
-          setupModal(link);
+          setupModal(
+            link,
+            "Click here for pre-filled form.",
+            "All text comes from George Orwell's 1984, and all names and places are random. Note: The content in the form will be URL encoded, i.e. spaces will look like %20. I am trying to think of a way to get around that."
+          );
         }
 
         // page setup
         getBook();
         getTexas();
+        $("#modal-parent").on('click', handleModalClick);
         $("#generate-link").on('click', generateLink);
+        $("#useless-link").on('click', mock);
       });
 
     </script>
@@ -87,10 +102,9 @@
       <div id="modal">
         <div class="blog-entry" style="text-align: center">
           <h3>
-            <a id="link" target="_blank">Click here.</a>
+            <a id="link" target="_blank"></a>
           </h3>
-          <p>
-            All text comes from George Orwell's 1984, and all names and places are randomly generated. Note: The content in the form will be URL encoded, i.e. spaces will look like %20. I am trying to think of a way to get around that.
+          <p id="modal-text">
           </p>
         </div>
       </div>
@@ -98,19 +112,50 @@
 
     <div id="header">
       <img src="/static/logo.png"/>
+      <div id="useless-link">HOME</div>
     </div>
     <div id="main">
       <div id="main-header">
         <h2>
           Fuck the Texas Heartbeat Act
         </h2>
+        <h3>
+          Texas made a website where you can anonymously report abortion providers, so here's a site that will pre-fill the form with random quotes from 1984.
+        </h3>
+        <h3>
+          This website is intended only as a political statement. Even though it <i>will</i> work, we do not advocate actually clicking "submit" and clogging their report system with excerpts from Orwell's masterpiece.  It'll work though, so you know. But don't do it.
+        </h3>
+        <br>
         <div id="generate-link">Generate fake report form</div>
       </div>
     </div>
     <style>
       #header {
           height: 80px;
+          width: 75%;
+          position: relative;
+          display: block;
+          margin: auto;
       }
+
+      #header img{
+          float: left;
+      }
+
+      #header div{
+    float: right;
+    color: #949494;
+    font-family: 'Oswald',Helvetica,Arial,Lucida,sans-serif;
+    text-transform: uppercase;
+    font-size: 18px;
+    line-height: 125px;
+    text-align: center;
+    font-weight: 600;
+    letter-spacing: -2px;
+    font-stretch: ultra-condensed;
+    cursor: pointer;
+      }
+
       #main {
           background-image: url(/static/scarephoto.png);
           height: 800px;
@@ -121,6 +166,7 @@
           transition: all .7s;
       }
       #main-header {
+          float: let;
           width: 40%;
           margin-left: 15%;
           margin-top: 24px;
@@ -130,9 +176,15 @@
 
       #main-header h2{
           font-family: 'Lora',Georgia,"Times New Roman",serif;
-          font-weight: 700;
+          font-weight: 500;
           font-size: 80px;
           line-height: 1.5em;
+          color: white;
+          text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
+
+      }
+      #main-header h3{
+          font-family: 'Lora',Georgia,"Times New Roman",serif;
           color: white;
           text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
 
