@@ -134,8 +134,9 @@
           This site is intended only as a political statement. Even though it <i>will</i> work, we do not advocate actually clicking "submit" and clogging their report system with excerpts from Orwell's masterpiece.  It'll work though, so you know. But don't do it.
         </h3>
         <br>
-        <div id="generate-link">Generate link for fake report form</div>
       </div>
+      <div id="generate-link">Generate link for fake report form</div>
+    <br><br><br><br>
     </div>
     <style>
       #header {
@@ -151,30 +152,34 @@
       }
 
       #header div{
-    float: right;
-    color: #949494;
-    font-family: 'Oswald',Helvetica,Arial,Lucida,sans-serif;
-    text-transform: uppercase;
-    font-size: 18px;
-    line-height: 125px;
-    text-align: center;
-    font-weight: 600;
-    letter-spacing: -2px;
-    font-stretch: ultra-condensed;
-    cursor: pointer;
+          float: right;
+          color: #949494;
+          font-family: 'Oswald',Helvetica,Arial,Lucida,sans-serif;
+          text-transform: uppercase;
+          font-size: 18px;
+          line-height: 125px;
+          text-align: center;
+          font-weight: 600;
+          letter-spacing: -2px;
+          font-stretch: ultra-condensed;
+          cursor: pointer;
       }
 
       #main {
           background-image: url(/static/scarephoto.png);
-          height: 800px;
-          width: 100%;
+          min-height: 800px;
+          min-width: 100%;
           background-repeat: no-repeat;
-          background-position: center;
+          background-position: top;
           background-size: 100%;
           transition: all .7s;
+          background-color: #000101;
       }
+      @media screen and (max-width: 500px){
+          background-size: 100%;
+      }
+
       #main-header {
-          float: let;
           width: 40%;
           margin-left: 15%;
           margin-top: 24px;
@@ -188,7 +193,7 @@
           font-size: 80px;
           line-height: 1.5em;
           color: white;
-          text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
+          text-shadow: 2px 0 0 #000, 0 -2px 0 #000, 0 2px 0 #000, -2px 0 0 #000;
 
       }
       #main-header h3{
@@ -198,6 +203,11 @@
 
       }
       #generate-link{
+          width: 40%;
+          margin-left: 15%;
+          margin-top: 30px;
+
+
           color: #FFFFFF!important;
           border-radius: 100px;
           font-size: 16px;
@@ -212,6 +222,13 @@
           cursor: pointer;
 
       }
+      /* @media screen and (max-width: 500px){ */
+      /*     #generate-link{ */
+      /*         width: 100%; */
+      /*         border-radius: 0; */
+      /*     } */
+      /* } */
+
 
       /* modal */
       #modal-background {
