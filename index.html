@@ -73,17 +73,20 @@
         }
 
         function randomFrom(thing){
-          return thing[Math.floor(Math.random()*thing.length)]
+          return thing[Math.floor(Math.random()*thing.length)];
         }
 
         function getExcerpt(){
           let book = $.parseJSON($("#book").html());
-          return randomFrom(book).slice(0,500)
+          let chapter = randomFrom(book);
+          return randomFrom(
+            chapter.split('\n')
+          ).slice(0,100).trim();
         }
 
         function getLocation(){
           let texas = $.parseJSON($("#texas").html());
-          return randomFrom(texas)
+          return randomFrom(texas);
         }
 
         function getDoctorName(){
@@ -121,10 +124,10 @@
         }
 
         function generateLinkWithSpaceChar(spaceChar, shortData){
-          //          let violation = encodeURIComponent(getExcerpt());
           var violation = null;
           var evidence = null;
-
+          // quick hack to ignore short data
+          shortData = randomFrom([true, false]);
           if (shortData){
             let quotes = [
               "Strange women lying in ponds distributing swords is no basis for a system of government.",
@@ -151,16 +154,15 @@
             evidence = randomFrom(quotes);
           }
           else {
-            violation = encodeURIComponent("aa•aa")
-            evidence = encodeURIComponent(getExcerpt());
-
+            violation = getExcerpt();
+            evidence = getExcerpt();
           }
-          let doctor = encodeURIComponent(getDoctorName());
+          let doctor = getDoctorName();
           let location = getLocation();
-          let city = encodeURIComponent(toTitleCase(location.city));
+          let city = toTitleCase(location.city);
           let state = "Texas"
-          let county = encodeURIComponent(toTitleCase(location.county));
-          let zip = encodeURIComponent(location.zip);
+          let county = toTitleCase(location.county);
+          let zip = location.zip;
           var link = "https://prolifewhistleblower.com/anonymous-form/?textarea-1=" + violation + "&text-1=" + evidence + "&text-6=" + doctor + "&text-2=" + city + "&text-3=" + state + "&text-4=" + zip + "&text-5=" + county;
           return link;
         }
@@ -211,13 +213,13 @@
           This site is intended only as a political statement. Even though it <i>will</i> work, we do not advocate actually clicking "submit" and clogging their report system.  It'll work though, so you know. But don't do it.
         </h3>
         <h3 class="explanation">
-          Due to increased security measures by prolifewhistleblower.com, we have several different methods of using the site (for educational purposes only).
+          As of 26 of August, this appears to be fully working again. Due to increased security measures by prolifewhistleblower.com, there is now an additional step that let's you choose how you want to visit the link.
         </h3>
         <br>
       </div>
-      <div class="action" id="generate-link">Method 1: OG 1984 report form</div>
-      <div class="action" id="generate-link2">Method 2: Same with altered space chars</div>
-      <div class="action" id="generate-link3">Method 3: Shorter excerpts</div>
+      <div class="action" id="generate-link">Generate link</div>
+      <!-- <div class="action" id="generate-link2">Method 2: Same with altered space chars</div> -->
+      <!-- <div class="action" id="generate-link3">Method 3: Shorter excerpts</div> -->
       <div id="link-landing-container" style="display: none">
 
         <h3 id="link-explanation" class="explanation">
@@ -409,3 +411,4 @@
     </style>
   </body
 </html>
+<
