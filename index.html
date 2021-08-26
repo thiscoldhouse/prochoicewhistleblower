@@ -73,11 +73,42 @@
           });
         }
 
-        function generateLink(){
-//          let violation = encodeURIComponent(getExcerpt());
-          let violation = encodeURIComponent("aa•aa")
+        function encodeForForm(text, spaceChar){
+          text = text.replace(' ', spaceChar);
+          text = encodeURIComponent(text);
+          return text;
+        };
 
-          let evidence = encodeURIComponent(getExcerpt());
+        function generateLink(){
+          return generateLinkWithSpaceChar(' ', false); // regular space
+        }
+        function generateLink2(){
+          return generateLinkWithSpaceChar(' ', false); // U+2000
+        }
+
+        function generateLink3(){
+          generateLinkWithSpacechar(' ', true);
+        }
+
+        function generateLinkWithSpaceChar(spaceChar, shortData){
+          //          let violation = encodeURIComponent(getExcerpt());
+          var violation = null;
+          var evidence = null;
+
+          if (shortData){
+            let quotes = [
+              "Strange women lying in ponds distributing swords is no basis for a system of government.",
+              "I'd like to complain about people who constantly hold things up by complaining about people who complain. It's high time something was done about it!",
+              "We interrupt this program to annoy you and make things generally irritating..",
+            ];
+            violation = randomFrom(quoes);
+            evidence = randomFrom(quotes);
+          }
+          else {
+            violation = encodeURIComponent("aa•aa")
+            evidence = encodeURIComponent(getExcerpt());
+
+          }
           let doctor = encodeURIComponent(getDoctorName());
 
           let location = getLocation();
@@ -100,11 +131,13 @@
         getTexas();
         $("#modal-parent").on('click', handleModalClick);
         $("#generate-link").on('click', generateLink);
+        $("#generate-link2").on('click', generateLink2);
+        $("#generate-link3").on('click', generateLink3);
         $("#useless-link").on('click', mock);
 
         setupModal(
           null, null,
-          "We've received reports that new security measures are increasingly preventing people from using this site (for educational purposes only, of course). We are aware and <b>will</b> find a workaround. </p><br><p>Click outside the modal to continue, and good luck to everyone in Texas. We love you!"
+          "We've received reports that new security measures are increasingly preventing people from using this site (for educational purposes only, of course). We are aware and are working on it! As a workaround for now, we've added a few different methods. </p><br><p>Click outside the modal to continue, and good luck to everyone in Texas. We love you!"
           );
 
       });
@@ -142,7 +175,9 @@
         </h3>
         <br>
       </div>
-      <div id="generate-link">Generate link for fake report form</div>
+      <div class="action" id="generate-link">Method 1: OG fake report form</div>
+      <div class="action" id="generate-link2">Method 2: alternative space characters</div>
+      <div class="action" id="generate-link2">Method 3: Shorter excerpts</div>
     <br><br><br><br>
     </div>
     <style>
@@ -190,6 +225,7 @@
           width: 40%;
           margin-left: 15%;
           margin-top: 24px;
+          margin-bottom: 30px;
           position: relative;
           top: 50px;
       }
@@ -209,11 +245,11 @@
           text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
 
       }
-      #generate-link{
+      .action{
           width: 40%;
           margin-left: 15%;
-          margin-top: 30px;
-
+          margin-top: 15px;
+          margin-bottom: 15px;
 
           color: #FFFFFF!important;
           border-radius: 100px;
