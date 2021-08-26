@@ -8,6 +8,9 @@
   <body>
     <script>
       $(document).ready(function(){
+        var state = {
+          'link': null
+        }
         // ------------ modal ---------------- //
         function handleModalClick(e){
           if (e.target.id == "modal-background"){
@@ -28,9 +31,32 @@
 
         // ----------------- end modal ----------- //
 
+        function goToLink(e){
+          if ($(e.target).attr('id') == 'link-landing-hard'){
+            window.location = state.link;
+          }
+          else {
+            window.open(state.link, '_blank').focus();
+          }
+        }
+
+        function playAgain(){
+          $([document.documentElement, document.body]).animate(
+            {scrollTop: 200}, 500, function(){
+              $("#link-landing-container").hide();
+            });
+        }
+
+        function jumpToLink(link){
+          $("#link-landing-container").attr('style', {'display': 'block'});
+          $([document.documentElement, document.body]).animate({
+            scrollTop: ($("#link-landing-container").offset().top - 25)
+          }, 500);
+        }
+
         function mock(){
           setupModal(
-            null, null, "Have you noticed the scary background picture? Or the weird font on the link you just clicked? I gave up trying to make the kerning and font as fucked up as it was on the original site. Anyway, fuck you Greg Abbott, you're a piece of shit."
+            null, null, "I just put this here to copy the original; it doesn't go anywhere. While I have you: have you noticed the scary background picture? Fucking gross. And what's up with the weird font on the link you just clicked? I gave up trying to make the kerning and font as fucked up as it was on the original site. Anyway, fuck you Greg Abbott, you're a piece of shit."
           );
         }
 
@@ -80,14 +106,18 @@
         };
 
         function generateLink(){
-          return generateLinkWithSpaceChar(' ', false); // regular space
+          state.link =  generateLinkWithSpaceChar(' ', false); // regular space
+          jumpToLink()
         }
+
         function generateLink2(){
-          return generateLinkWithSpaceChar(' ', false); // U+2000
+          state.link = generateLinkWithSpaceChar(' ', false); // U+2000
+          jumpToLink();
         }
 
         function generateLink3(){
-          generateLinkWithSpaceChar(' ', true);
+          state.link = generateLinkWithSpaceChar(' ', true);
+          jumpToLink();
         }
 
         function generateLinkWithSpaceChar(spaceChar, shortData){
@@ -100,6 +130,22 @@
               "Strange women lying in ponds distributing swords is no basis for a system of government.",
               "I'd like to complain about people who constantly hold things up by complaining about people who complain. It's high time something was done about it!",
               "We interrupt this program to annoy you and make things generally irritating..",
+              "And if a man shall lie with a woman having her sickness, and shall uncover her nakedness; he hath discovered her fountain, and she hath uncovered the fountain of her blood: and both of them shall be cut off from among their people.",
+              "Whoever utters the name of the Lord must be put to death. The whole community must stone him whether alien or native. If he utters the name, he must be put to death.",
+              "No one whose testicles are crushed or whose male organ is cut off shall enter the assembly of the Lord.",
+              "If two men, a man and his countryman, are struggling together, and the wife of one comes near to deliver her husband from the hand of the one who is striking him, and puts out her hand and seizes his genitals, then you shall cut off her hand; you shall not show pity.",
+              "May the Lord strike you with Egyptian boils and with tumors, scabs and itch for which you will find no cure.",
+              "Then the LORD commanded the fish, and it vomited Jonah up onto the dry land.",
+              "A feast is made for laughter, wine makes life merry, and money is the answer for everything.",
+              "Better to live on a corner of the roof than share a house with a quarrelsome wife.",
+              "Worst of all wounds is that of the heart, worst of all evils is that of a woman.",
+              "It is better to dwell in the wilderness, than with a contentious and an angry woman.",
+              "Happy is the one who seizes your infants and dashes them against the rocks.",
+              "For in much wisdom is much grief: and he that increaseth knowledge increaseth sorrow.",
+              "Yet she became more and more promiscuous as she recalled the days of her youth, when she was a prostitute in Egypt. There she lusted after her lovers, whose genitals were like those of donkeys and whose emission was like that of horses.",
+              "Give strong drink unto him that is ready to perish, and wine unto those that be of heavy hearts",
+              "And you shall eat it as a barley cake, baking it in their sight on human dung.",
+              "You shall have a place outside the camp, and you shall go out to it. And you shall have a trowel with your tools, and when you sit down outside, you shall dig a hole with it and turn back and cover up your excrement."
             ];
             violation = randomFrom(quotes);
             evidence = randomFrom(quotes);
@@ -110,35 +156,26 @@
 
           }
           let doctor = encodeURIComponent(getDoctorName());
-
           let location = getLocation();
-
           let city = encodeURIComponent(toTitleCase(location.city));
           let state = "Texas"
           let county = encodeURIComponent(toTitleCase(location.county));
           let zip = encodeURIComponent(location.zip);
-          console.log(county);
           var link = "https://prolifewhistleblower.com/anonymous-form/?textarea-1=" + violation + "&text-1=" + evidence + "&text-6=" + doctor + "&text-2=" + city + "&text-3=" + state + "&text-4=" + zip + "&text-5=" + county;
-          setupModal(
-            link,
-            "Click here for pre-filled form.",
-            "All text comes from George Orwell's 1984, and all names and places are random. Note: The content in the form will be URL encoded, i.e. spaces will look like %20. I am trying to think of a way to get around that, but there's a good chance the data does get urldecoded on the other end regardless."
-          );
+          return link;
         }
 
         // page setup
         getBook();
         getTexas();
+        $("#play-again").on('click', playAgain);
+        $(".link-landing").on('click', goToLink);
         $("#modal-parent").on('click', handleModalClick);
         $("#generate-link").on('click', generateLink);
         $("#generate-link2").on('click', generateLink2);
         $("#generate-link3").on('click', generateLink3);
         $("#useless-link").on('click', mock);
-
-        setupModal(
-          null, null,
-          "We've received reports that new security measures are increasingly preventing people from using this site (for educational purposes only, of course). We are aware and are working on it! As a workaround for now, we've added a few different methods. </p><br><p>Click outside the modal to continue, and good luck to everyone in Texas. We love you!"
-          );
+        $([document.documentElement, document.body]).animate({scrollTop: 0}, 200);
 
       });
 
@@ -167,20 +204,77 @@
         <h2>
           Fuck the Texas Heartbeat Act
         </h2>
-        <h3>
-          Texas made a website for anonymously reporting abortion providers, so here's a website that will pre-fill the form with random quotes from 1984.
+        <h3 class="explanation">
+          Texas made a website for anonymously reporting abortion providers, so here's a website that will pre-fill the form with plausible fake data and random quotes from literary sources - mostly 1984.
         </h3>
-        <h3>
-          This site is intended only as a political statement. Even though it <i>will</i> work, we do not advocate actually clicking "submit" and clogging their report system with excerpts from Orwell's masterpiece.  It'll work though, so you know. But don't do it.
+        <h3 class="explanation">
+          This site is intended only as a political statement. Even though it <i>will</i> work, we do not advocate actually clicking "submit" and clogging their report system.  It'll work though, so you know. But don't do it.
+        </h3>
+        <h3 class="explanation">
+          Due to increased security measures by prolifewhistleblower.com, we have several different methods of using the site (for educational purposes only).
         </h3>
         <br>
       </div>
-      <div class="action" id="generate-link">Method 1: OG fake report form</div>
-      <div class="action" id="generate-link2">Method 2: alternative space characters</div>
+      <div class="action" id="generate-link">Method 1: OG 1984 report form</div>
+      <div class="action" id="generate-link2">Method 2: Same with altered space chars</div>
       <div class="action" id="generate-link3">Method 3: Shorter excerpts</div>
-    <br><br><br><br>
+      <div id="link-landing-container" style="display: none">
+
+        <h3 id="link-explanation" class="explanation">
+          <p>
+            Link generated!
+          </p>
+          <p>
+            Note: The content in the form will probably be URL-encoded, i.e. spaces will look like "%20". This is being done automatically by your browser. Though we can't know for sure, most platforms automatically URL-decode form data. This is not ideal, but fine for now.
+          </p>
+
+        </h3>
+        <div id="link-landing-soft" class="link-landing action">
+          Open like regular link
+        </div>
+        <div id="link-landing-hard" class="link-landing action">
+          Hard page reset, may circumvent referrer-based filters
+        </div>
+        <div id="play-again" class="action">
+          Make another one (still for educational purposes)
+        </div>
+      </div>
     </div>
     <style>
+      body {
+          font-family: 'Oswald',Helvetica,Arial,Lucida,sans-serif;
+      }
+      #play-again{
+          margin-top: 50px;
+          background-color: #0072C2 !important;
+          width: 60% !important;
+          margin-left: auto !important;
+          margin-right: auto !important;
+
+      }
+      #link-explanation{
+          text-align: center;
+          margin-left: auto;
+          font-size: 24px;
+          width: 55%;
+          margin-right: auto;
+          margin-top: 75px;
+          margin-bottom: 50px;
+      }
+      #link-landing-container {
+          position: relative;
+          top: 500px;
+          text-align: center;
+          margin-left: auto;
+          margin-right: auto;
+          margin-top: 75px;
+          margin-bottom: 1000px;
+      }
+      .link-landing{
+          width: 60% !important;
+          margin-left: auto !important;
+          margin-right: auto !important;
+      }
       #header {
           height: 80px;
           width: 75%;
@@ -216,6 +310,7 @@
           background-size: 100%;
           transition: all .7s;
           background-color: #000101;
+          padding-bottom:200px;
       }
       @media screen and (max-width: 500px){
           background-size: 100%;
@@ -239,14 +334,14 @@
           text-shadow: 2px 0 0 #000, 0 -2px 0 #000, 0 2px 0 #000, -2px 0 0 #000;
 
       }
-      #main-header h3{
+      .explanation{
           font-family: 'Lora',Georgia,"Times New Roman",serif;
           color: white;
           text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
 
       }
       .action{
-          width: 40%;
+
           margin-left: 15%;
           margin-top: 15px;
           margin-bottom: 15px;
@@ -261,17 +356,11 @@
           text-align: center;
           height: 50px;
           line-height: 50px;
-          width: 400px;
+          width: 450px;
+          max-width: 75%;
           cursor: pointer;
 
       }
-      /* @media screen and (max-width: 500px){ */
-      /*     #generate-link{ */
-      /*         width: 100%; */
-      /*         border-radius: 0; */
-      /*     } */
-      /* } */
-
 
       /* modal */
       #modal-background {
@@ -318,4 +407,5 @@
           }
       }
     </style>
-  </body>
+  </body
+</html>
