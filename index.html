@@ -29,7 +29,6 @@
         // ----------------- end modal ----------- //
 
         function mock(){
-          debugger;
           setupModal(
             null, null, "Have you noticed the scary background picture? Or the weird font on the link you just clicked? I gave up trying to make the kerning and font as fucked up as it was on the original site. Anyway, fuck you Greg Abbott, you're a piece of shit."
           );
@@ -75,7 +74,9 @@
         }
 
         function generateLink(){
-          let violation = encodeURIComponent(getExcerpt());
+//          let violation = encodeURIComponent(getExcerpt());
+          let violation = encodeURIComponent("aa•aa")
+
           let evidence = encodeURIComponent(getExcerpt());
           let doctor = encodeURIComponent(getDoctorName());
 
@@ -100,6 +101,12 @@
         $("#modal-parent").on('click', handleModalClick);
         $("#generate-link").on('click', generateLink);
         $("#useless-link").on('click', mock);
+
+        setupModal(
+          null, null,
+          "We've received reports that new security measures are increasingly preventing people from using this site (for educational purposes only, of course). We are aware and <b>will</b> find a workaround. </p><br><p>Click outside the modal to continue, and good luck to everyone in Texas. We love you!"
+          );
+
       });
 
     </script>
